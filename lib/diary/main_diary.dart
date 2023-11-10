@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:calendar_view/calendar_view.dart';
 
 import '../batch/create.dart';
+import '../home.dart';
 import '../main.dart';
+import '../models/user_model.dart';
 import 'entry.dart';
 
 DateTime now = DateTime.now();
 
 class MyPage extends StatefulWidget {
-  const MyPage({super.key, required this.title});
+  const MyPage({super.key, required this.title, required this.user, required this.token});
 
-
+  final token;
+  final User user;
   final String title;
 
   @override
@@ -29,7 +32,7 @@ class _MyPageState extends State<MyPage> {
   Widget build(BuildContext context) {
 
     return WillPopScope(
-        onWillPop: () async {Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const MainPage()), (route) => false); return Future.value(false);},
+        onWillPop: () async {Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainPage(title: 'Farm App', user: widget.user, token: widget.token)), (route) => false); return Future.value(false);},
 
         child: Scaffold(
           appBar: AppBar(
@@ -106,7 +109,7 @@ class _MyPageState extends State<MyPage> {
                     cellAspectRatio: 1,
                     onPageChange: (date, pageIndex) => print("$date, $pageIndex"),
                     onCellTap: (events, date) {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => EntryPage(title: 'Entry for ${fixDate("$date")}', date: "${DateTime(date.year, date.month, date.day)}",)));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => EntryPage(title: 'Entry for ${fixDate("$date")}', date: "${DateTime(date.year, date.month, date.day)}", user: widget.user, token: widget.token)));
                     },
                     startDay: WeekDays.sunday, // To change the first day of the week.
                     // This callback will only work if cellBuilder is null.
@@ -124,7 +127,7 @@ class _MyPageState extends State<MyPage> {
             child: CircularProgressIndicator(),
           );
         },
-        future: loadEntries(),
+        future: getData("https://tg0217.pythonanywhere.com/user/${widget.user.userId}/diary-entries", widget.token),
       ),
     ),
     );
@@ -132,12 +135,6 @@ class _MyPageState extends State<MyPage> {
   }
 }
 
-Future<List> loadEntries() async{
-  var db = await FirebaseFirestore.instance.collection("farm-diary").get();
-  final List<DocumentSnapshot> documents = db.docs;
-
-  return documents;
-}
 
 DateTime stringToDateTime(dateString){
   int year = int.parse("${dateString[0]}${dateString[1]}${dateString[2]}${dateString[3]}");

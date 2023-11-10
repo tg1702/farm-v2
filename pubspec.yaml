@@ -39,6 +39,7 @@ dependencies:
   date_time_picker: "^2.1.0"
   http: ^0.13.5
   shared_preferences: ^0.5.12+4
+  calendar_view: ^1.0.4
 
 dev_dependencies:
   flutter_test:

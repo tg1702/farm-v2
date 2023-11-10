@@ -88,7 +88,7 @@ class _EntryPageState extends State<EntryPage> {
                                   await sendData("", newEntry ,widget.token);
 
                                   //Navigating back to diary select page
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const MyPage(title: 'Farm Diary',)));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => MyPage(title: 'Farm Diary', user: widget.user, token: widget.token)));
                                 }
                             ),
                           ]
@@ -100,7 +100,7 @@ class _EntryPageState extends State<EntryPage> {
                 child: CircularProgressIndicator(),
               );
             },
-            future: loadSingleEntry(widget.date),
+            future: loadSpecificDate(widget.date, widget.user, widget.token),
           ),
     );
 
@@ -108,23 +108,16 @@ class _EntryPageState extends State<EntryPage> {
   }
 }
 
-Future<Map<String,dynamic>> loadSingleEntry(date) async{
-  var db = await getData("https:", token);
-  Map<String,dynamic> entry = {
-    "Date": "",
-    "Title": "",
-    "Notes": "",
-  };
-
-  if (db.docs.isNotEmpty) {
-    for (var doc in db.docs) {
-      if (doc.batchId.contains(date)) {
-        entry = doc.data();
-      }
+Future<Map<String, dynamic>> loadSpecificDate(date, user, token) async{
+  List entries = await getData("https://tg0217.pythonanywhere.com/user/${user.userId}/diary-entries", token);
+  Map<String,dynamic> entry = {};
+  entries.forEach((e){
+    if (date == e["date"]){
+      entry = e;
     }
+  });
 
 
-  }
 
   return entry;
 }

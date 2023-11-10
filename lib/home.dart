@@ -235,7 +235,7 @@ Widget makeDrawer(context, title, user, token){
                   ListTile(
                     title: const Text("Farm Diary"),
                     onTap: () => {Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MyPage(title: 'Farm Diary'))
+                        MaterialPageRoute(builder: (context) => MyPage(title: 'Farm Diary', user: user, token: token))
 
                     )},
                   ),
