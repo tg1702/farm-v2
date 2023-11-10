@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -92,10 +94,20 @@ class _MyHomePageState extends State<MyHomePage> {
             child: const Text("Submit"),
             onPressed: () async {
 
-                final user = User(userNameController.text, passwordController.text);
-                Map token = login(user) as Map;
+                final user = {
+                  "username": userNameController.text,
+                  "password": passwordController.text,
+                  "user_id": "898989"
+                };
 
-                if (token['token']) {
+
+
+
+                Map<String,dynamic> token = await login(user);
+
+
+                if (token['token'] != '') {
+                  print(token);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -120,9 +132,19 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+String getRandomUserName() {
+  const int length = 10;
+  const chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  Random rnd = Random();
+  return String.fromCharCodes(Iterable.generate(
+      length,
+          (_) => chars.codeUnitAt(rnd.nextInt(chars.length))));
+}
 
-Future<Map> login(user) async{
-  String url = "https://tg0217.pythonanywhere.com/user/${user.userId}/login";
+
+Future<Map<String,dynamic>> login(user) async{
+  String url = "http://tg0217.pythonanywhere.com/users/${user["user_id"]}/login";
+  final Map<String,dynamic> token = {'token': ''};
 
   try {
     //Verified
@@ -134,11 +156,13 @@ Future<Map> login(user) async{
 
     }
     else {
-      return {'token': ''};
+      print(response.statusCode);
+      return token;
     }
 
   }
   catch (e) {
-    return {'token': ''};
+    print(e);
+    return token;
   }
 }

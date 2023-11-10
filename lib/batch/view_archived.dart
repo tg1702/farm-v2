@@ -13,11 +13,11 @@ class ArchiveViewPage extends StatefulWidget {
   const ArchiveViewPage({super.key, required this.title,
     required this.token, required this.user, required this.fields, required this.batchId, required this.path});
 
-  final User user;
+  final Map<String,dynamic> user;
   final path;
   final batchId;
   final fields;
-  final token;
+  final Map<String,dynamic> token;
   final String title;
 
   @override

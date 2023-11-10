@@ -15,8 +15,8 @@ import 'models/user_model.dart';
 
 
 class MainPage extends StatefulWidget {
-  final User user;
-  final Map token;
+  final Map<String,dynamic> user;
+  final Map<String,dynamic> token;
 
   const MainPage({super.key, required this.title, required this.user, required this.token});
 
@@ -29,13 +29,23 @@ class MainPage extends StatefulWidget {
   }
 }
 
-Future<List> getData(url, token) async {
-  String actualToken = token['token'] as String;
-  final headers = {'Content-Type': 'application/json', 'Authorization': actualToken };
-  final response = await http.get(Uri.parse(url), headers: headers);
+Future<List<Map<String,dynamic>>> getData( String url, Map<String,dynamic> token) async {
 
-  List<Map<String,dynamic>> list = List<Map<String,dynamic>>.from(json.decode(response.body));
-  return list;
+  if (token.containsKey('token') && token['token'] is String) {
+    String actualToken = token['token'] as String;
+
+    final headers = {'Content-Type': 'application/json', 'Authorization': actualToken };
+
+    final response = await http.get(Uri.parse(url), headers: headers);
+
+    List<Map<String,dynamic>> list = List<Map<String,dynamic>>.from(json.decode(response.body));
+
+    return list;
+  }
+  else {
+    throw Exception('Invalid token');
+  }
+
 
 }
 
@@ -64,7 +74,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
 
-    String url = "https://tg0217.pythonanywhere.com/user/${widget.user.userId}/batches";
+    String url = "https://tg0217.pythonanywhere.com/users/${widget.user["user_id"]}/batches";
 
     return WillPopScope(
       onWillPop: () {
@@ -105,13 +115,13 @@ class _MainPageState extends State<MainPage> {
 
                       if (doc["Status"] == 1) {
                         sidebarList.add(ListTile(
-                          title: Text("     ${doc.batchId}"),
+                          title: Text("     ${doc["batch_id"]}"),
                           onTap: () =>
                           {Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  InfoHomePage(batchId: doc.batchId, title: doc.batchId, user: widget.user, token: widget.token),
+                                  InfoHomePage(batchId: doc["batch_id"], title: doc["batch_id"], user: widget.user, token: widget.token),
                             ),
 
                           )},
@@ -159,6 +169,7 @@ class _MainPageState extends State<MainPage> {
 
 Widget makeDrawer(context, title, user, token){
 
+
   return Drawer(
       child: FutureBuilder(
         builder: (ctx, snapshot) {
@@ -176,20 +187,21 @@ Widget makeDrawer(context, title, user, token){
               // if we got our data
             } else if (snapshot.hasData) {
               // Extracting data from snapshot object
-              final data = snapshot.data as List;
+              final data = snapshot.data;
               List<Widget> activeList = [];
 
 
-              data.forEach((DOC)
+
+              data?.forEach((d)
               {
-                final d = DOC.data() as Map<String, dynamic>;
-                if (d["Status"] == "Active"){
+
+                if (d["Active_Status"] == "1"){
                   activeList.add( ListTile(
-                    title: Text("     ${DOC.batchId}"),
+                    title: Text("     ${d["batch_name"]}"),
                     onTap: () => {Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => InfoHomePage(batchId: DOC.batchId, title: DOC.batchId, user: user, token: token),
+                        builder: (context) => InfoHomePage(batchId: d["batch_name"], title: d["batch_name"], user: user, token: token),
                       ),
 
                     )},
@@ -200,6 +212,7 @@ Widget makeDrawer(context, title, user, token){
               });
 
               return ListView(
+
                 children: [
                   const DrawerHeader(
                     decoration: BoxDecoration(color: Colors.green,),
@@ -259,7 +272,7 @@ Widget makeDrawer(context, title, user, token){
           );
         },
 
-        future: getData(user, token),
+        future: getData("http://tg0217.pythonanywhere.com/users/${user["user_id"]}/batches", token),
       )
   );
 }

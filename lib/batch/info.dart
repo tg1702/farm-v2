@@ -14,7 +14,7 @@ import '../main.dart';
 class InfoHomePage extends StatefulWidget {
 
   final batchId;
-  final User user;
+  final Map<String,dynamic> user;
   final token;
   const InfoHomePage({super.key, required this.title, required this.batchId, required this.token, required this.user});
 
@@ -230,7 +230,7 @@ class _InfoHomePageState extends State<InfoHomePage> {
                                       batchName: "widget.batchName",
                                       user: widget.user,
                                       token: widget.token,
-                                      path: "https:https://tg0217.pythonanywhere.com/user/${widget.user.userId}/batches/${widget.batchId}/expenses",
+                                      path: "https:https://tg0217.pythonanywhere.com/user/${widget.user["user_id"]}/batches/${widget.batchId}/expenses",
                                   );
                                 })));
                           },
@@ -291,7 +291,7 @@ class _InfoHomePageState extends State<InfoHomePage> {
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(builder: (_)=>ListViewPage(
                                 title: 'Show all Deaths',
-                                path: "https:https://tg0217.pythonanywhere.com/user/${widget.user.userId}/batches/${widget.batchId}/deaths",
+                                path: "https:https://tg0217.pythonanywhere.com/user/${widget.user["user_id"]}/batches/${widget.batchId}/deaths",
                                 fields: const ["Number of Deaths",  "Date"], // TODO: Add week
                                 user: widget.user,
                                 token: widget.token,
@@ -382,8 +382,8 @@ class _InfoHomePageState extends State<InfoHomePage> {
 Future<List> returnFields(user, batchId, token) async{
   String url = "";
 
-  final batch = await getData("https://tg0217.pythonanywhere.com/user/${user.userId}/batches/${batchId}", token);
-  final docRef2 = await getData("https://tg0217.pythonanywhere.com/user/${user.userId}/batches/${batchId}/expenses", token);
+  final batch = await getData("https://tg0217.pythonanywhere.com/user/${user["user_id"]}/batches/${batchId}", token);
+  final docRef2 = await getData("https://tg0217.pythonanywhere.com/user/${user["user_id"]}/batches/${batchId}/expenses", token);
 
 
   return batch + docRef2;

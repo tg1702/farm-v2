@@ -1,7 +1,5 @@
-class User{
-  late String userId;
-  late String userName;
-  late String password;
-
-  User( this.userName, this.password);
-}
+Map<String, dynamic> User = {
+  "username": "",
+  "password": "",
+  "user_id": "",
+};

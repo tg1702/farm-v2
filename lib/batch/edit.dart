@@ -12,9 +12,9 @@ import 'create.dart';
 
 class EditPage extends StatefulWidget {
   final batchName;
-  final User user;
+  final Map<String,dynamic> user;
   final show;
-  final Map token;
+  final Map<String,dynamic> token;
   const EditPage({super.key, required this.title, required this.batchName, required this.show, required this.user,
   required this.token
   });
@@ -178,7 +178,7 @@ class _EditPageState extends State<EditPage> {
               child: ElevatedButton(
                   child: const Text("Submit"),
                   onPressed: () async{
-                    String url =  "https://tg0217.pythonanywhere.com/user/${widget.user.userId}/batches/${widget.batchName}/expenses";
+                    String url =  "https://tg0217.pythonanywhere.com/user/${widget.user["user_id"]}/batches/${widget.batchName}/expenses";
                     final newEntry = <String, dynamic>  {
                       "Name": dropdownvalue,
                       "Date": fixDate(dateController.text),
@@ -224,7 +224,7 @@ class _EditPageState extends State<EditPage> {
               child: ElevatedButton(
                 child: const Text("Submit"),
                 onPressed: () async{
-                  updateData("https://tg0217.pythonanywhere.com/user/${widget.user.userId}/batches/${widget.batchName}", {"Total_Income": double.parse(incomeController.text)}, widget.token);
+                  updateData("https://tg0217.pythonanywhere.com/user/${widget.user["user_id"]}/batches/${widget.batchName}", {"Total_Income": double.parse(incomeController.text)}, widget.token);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -275,7 +275,7 @@ class _EditPageState extends State<EditPage> {
               child: ElevatedButton(
                   child: const Text("Submit"),
                   onPressed: () async{
-                    String url = "https://tg0217.pythonanywhere.com/user/${widget.user.userId}/batches/${widget.batchName}";
+                    String url = "https://tg0217.pythonanywhere.com/user/${widget.user["user_id"]}/batches/${widget.batchName}";
 
                     // TODO: Add a week field to database
                          final newEntry = <String, dynamic> {

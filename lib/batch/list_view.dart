@@ -12,8 +12,8 @@ class ListViewPage extends StatefulWidget {
     required this.user, required this.token
   });
 
-  final User user;
-  final token;
+  final Map<String,dynamic> user;
+  final Map<String,dynamic> token;
   final batchId;
   final path;
   final fields;
@@ -136,8 +136,8 @@ class ListInfo extends StatefulWidget {
   final path;
   final batchId;
   final showIncome;
-  final User user;
-  final token;
+  final Map<String,dynamic> user;
+  final Map<String,dynamic> token;
 
   const ListInfo({super.key, required this.title, required this.fields, required this.path, required this.batchId, required this.showIncome,
     required this.user, required this.token

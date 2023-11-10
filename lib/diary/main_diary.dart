@@ -13,8 +13,8 @@ DateTime now = DateTime.now();
 class MyPage extends StatefulWidget {
   const MyPage({super.key, required this.title, required this.user, required this.token});
 
-  final token;
-  final User user;
+  final Map<String,dynamic> token;
+  final Map<String,dynamic> user;
   final String title;
 
   @override
@@ -127,7 +127,7 @@ class _MyPageState extends State<MyPage> {
             child: CircularProgressIndicator(),
           );
         },
-        future: getData("https://tg0217.pythonanywhere.com/user/${widget.user.userId}/diary-entries", widget.token),
+        future: getData("https://tg0217.pythonanywhere.com/user/${widget.user["user_id"]}/diary-entries", widget.token),
       ),
     ),
     );

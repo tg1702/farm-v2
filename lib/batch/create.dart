@@ -15,8 +15,8 @@ import '../home.dart';
 class CreatePage extends StatefulWidget {
   const CreatePage({super.key, required this.title, required this.user, required this.token});
 
-  final User user;
-  final Map token;
+  final Map<String,dynamic> user;
+  final Map<String,dynamic> token;
 
   final String title;
 
@@ -204,8 +204,9 @@ class _CreatePageState extends State<CreatePage> {
                       };
 
 
-                      sendData("https://tg0217.pythonanywhere.com/user/${widget.user.userId}/batches", newEntry, widget.token);
 
+                      int code = await sendData("https://tg0217.pythonanywhere.com/users/${widget.user["user_id"]}/batches/}", newEntry, widget.token);
+                      print("Code $code");
 
 
 

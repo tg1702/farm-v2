@@ -9,8 +9,8 @@ class EntryPage extends StatefulWidget{
   const EntryPage({super.key, required this.title, required this.date, required this.token, required this.user});
 
   final date;
-  final User user;
-  final token;
+  final Map<String,dynamic> user;
+  final Map<String,dynamic> token;
   final String title;
 
   @override

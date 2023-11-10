@@ -14,7 +14,7 @@ import '../main.dart';
 class ExpInfoPage extends StatefulWidget {
 
   final batchId;
-  final User user;
+  final Map<String,dynamic> user;
   final token;
   final path;
   final batchName;
