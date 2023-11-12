@@ -107,29 +107,21 @@ class _InfoHomePageState extends State<InfoHomePage> {
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 16.0),
                         child: Text(
-                            "     Name of Expense: ${allData[allData.length-1]["Name"]}"),
+                            "     Name of Expense: ${allData[0]["Name"]}"),
                       ),
                     );
                     expensesWidgets.add(
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 16.0),
                         child: Text(
-                            "     Date of Expense: ${allData[allData.length-1]["Date"]}"),
+                            "     Date of Expense: ${allData[0]["date"]}"),
                       ),
                     );
 
                     expensesWidgets.add(
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 16.0),
-                        child: Text("     Quantity: ${allData[allData.length-1]["Quantity"]}"),
-                      ),
-                    );
-
-                    expensesWidgets.add(
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16.0),
-                        child: Text(
-                            "     Cost per unit: \$ ${allData[allData.length-1]["Cost per Unit"]}"),
+                        child: Text("     Quantity: ${allData[0]["quantity"]}"),
                       ),
                     );
 
@@ -137,7 +129,15 @@ class _InfoHomePageState extends State<InfoHomePage> {
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 16.0),
                         child: Text(
-                            "     Description: ${allData[allData.length-1]["Description"]}"),
+                            "     Cost per unit: \$ ${allData[0]["cost_per_unit"]}"),
+                      ),
+                    );
+
+                    expensesWidgets.add(
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                        child: Text(
+                            "     Description: ${allData[0]["description"]}"),
                       ),
                     );
                   }
@@ -231,7 +231,7 @@ class _InfoHomePageState extends State<InfoHomePage> {
                                       batchName: "widget.batchName",
                                       user: widget.user,
                                       token: widget.token,
-                                      path: "https:https://tg0217.pythonanywhere.com/user/${widget.user["user_id"]}/batches/${widget.batchId}/expenses",
+                                      path: "https://tg0217.pythonanywhere.com/users/${widget.user["user_id"]}/batches/${widget.batchId}/expenses",
                                   );
                                 })));
                           },
@@ -387,8 +387,6 @@ Future<List> returnFields(user, batchId, token) async{
   final batch = await getData("https://tg0217.pythonanywhere.com/users/${user["user_id"]}/batches/$batchId", token);
   final expenses = await getData("https://tg0217.pythonanywhere.com/users/${user["user_id"]}/batches/$batchId/expenses", token);
 
-  print(batch);
-  print(expenses);
 
   return batch + expenses;
 }

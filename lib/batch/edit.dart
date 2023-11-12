@@ -179,17 +179,18 @@ class _EditPageState extends State<EditPage> {
               child: ElevatedButton(
                   child: const Text("Submit"),
                   onPressed: () async{
-                    String url =  "https://tg0217.pythonanywhere.com/user/${widget.user["user_id"]}/batches/${widget.batchName}/expenses";
+                    String url =  "https://tg0217.pythonanywhere.com/users/${widget.user["user_id"]}/batches/${widget.batchId}/expenses";
                     final newEntry = <String, dynamic>  {
-                      "Name": dropdownvalue,
-                      "Date": fixDate(dateController.text),
-                      "Cost": double.parse(costController.text),
-                      "Quantity": int.parse(expQuantityController.text),
-                      "Description": descriptionController.text,
-                      "Total_Cost": double.parse(costController.text)*int.parse(expQuantityController.text),
+                      "batch_id": widget.batchId,
+                      "expense_id": expenseCategories.indexOf(dropdownvalue!) + 1,
+                      "date": dateController.text,
+                      "cost": double.parse(costController.text),
+                      "quantity": int.parse(expQuantityController.text),
+                      "description": descriptionController.text,
                     };
+                    print(newEntry);
 
-                    updateData(url, newEntry, widget.token);
+                    sendData(url, newEntry, widget.token);
 
 
 
@@ -276,12 +277,12 @@ class _EditPageState extends State<EditPage> {
               child: ElevatedButton(
                   child: const Text("Submit"),
                   onPressed: () async{
-                    String url = "https://tg0217.pythonanywhere.com/user/${widget.user["user_id"]}/batches/${widget.batchName}";
+                    String url = "https://tg0217.pythonanywhere.com/users/${widget.user["user_id"]}/batches/${widget.batchName}/deaths";
 
                     // TODO: Add a week field to database
                          final newEntry = <String, dynamic> {
-                           "Date": fixDate(deathDateController.text),
-                           "Quantity": int.parse(deathCountController.text),
+                           "date": deathDateController.text,
+                           "quantity": int.parse(deathCountController.text),
                          };
                          sendData(url, newEntry, widget.token);
 

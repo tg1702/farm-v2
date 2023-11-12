@@ -107,7 +107,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
                 if (token['token'] != '') {
-                  print(token);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -156,13 +155,11 @@ Future<Map<String,dynamic>> login(user) async{
 
     }
     else {
-      print(response.statusCode);
       return token;
     }
 
   }
   catch (e) {
-    print(e);
     return token;
   }
 }

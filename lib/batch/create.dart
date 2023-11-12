@@ -160,11 +160,10 @@ class _CreatePageState extends State<CreatePage> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 30.0),
                 child: ElevatedButton(
-                child: Text("Submit"),
+                child: const Text("Submit"),
                   onPressed: () async {
 
-                      var newDate = DateTime(int.parse("${date[0]}${date[1]}${date[2]}${date[3]}"),
-                      int.parse("${date[5]}${date[6]}"), int.parse("${date[8]}${date[9]}"));
+                      var newDate = DateTime.parse(date);
 
                       var estimatedDate = DateTime(newDate.year, newDate.month, newDate.day + 43);
 
@@ -207,7 +206,6 @@ class _CreatePageState extends State<CreatePage> {
                       };
 
                       int code = await sendData("https://tg0217.pythonanywhere.com/users/${widget.user["user_id"]}/batches/$batchId", newEntry, widget.token);
-                      print("Code $code");
 
 
 

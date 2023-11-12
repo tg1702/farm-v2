@@ -91,6 +91,8 @@ class _ExpInfoPageState extends State<ExpInfoPage> {
                   // Extracting data from snapshot object
                   final allExpenseData = snapshot.data as List;
 
+
+                  print(allExpenseData);
                   Map categories = {
                     "Feed": [],
                     "Medicine": [],
@@ -124,15 +126,15 @@ class _ExpInfoPageState extends State<ExpInfoPage> {
                     for (var index in categories.keys){
 
 
-                      if (expense["Name"].toLowerCase().contains(index.toLowerCase())){
+                      if (expense["name"].toLowerCase().contains(index.toLowerCase())){
 
 
                         categories[index] = expense;
                         totals[index]["Quantity"] += expense["Quantity"];
-                        totals[index]["Total_Cost"] += expense["Total_Cost"];
+                        totals[index]["cost"] += expense["cost"];
 
                         overallQuantity += expense["Quantity"] as int;
-                        overallCost += expense["Total_Cost"];
+                        overallCost += expense["cost"];
 
 
 
@@ -152,7 +154,7 @@ class _ExpInfoPageState extends State<ExpInfoPage> {
                       ),
                         DataCell(Text("${totals[total]["Quantity"]}")),
                       DataCell(
-                      Text(" \$  ${totals[total]["Total_Cost"]}")),
+                      Text(" \$  ${totals[total]["cost"]}")),
 
                     ],
                     ),
@@ -231,7 +233,7 @@ class _ExpInfoPageState extends State<ExpInfoPage> {
                 child: CircularProgressIndicator(),
               );
             },
-            future:getData(widget.path, widget.token),
+            future:getData( widget.path, widget.token),
           ),
 
         ),
