@@ -9,11 +9,12 @@ class ListViewPage extends StatefulWidget {
 
 
   const ListViewPage({super.key, required this.title, required this.path, required this.fields, required this.batchId,
-    required this.user, required this.token
+    required this.user, required this.token, this.batchName
   });
 
   final Map<String,dynamic> user;
   final Map<String,dynamic> token;
+  final batchName;
   final batchId;
   final path;
   final fields;
@@ -81,7 +82,7 @@ class _ListViewPageState extends State<ListViewPage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                ListInfo(title: 'Full Record Info', fields: widget.fields, path: widget.path.doc(subIds[i]), batchId: subIds[i], showIncome: showIncome, user: widget.user, token: widget.token),
+                                ListInfo(title: 'Full Record Info', fields: widget.fields, path: widget.path.doc(subIds[i]), batchId: subIds[i], showIncome: showIncome, user: widget.user, token: widget.token, batchName: widget.batchName),
                           ),
 
                         );} ))
@@ -135,12 +136,13 @@ class ListInfo extends StatefulWidget {
   final fields;
   final path;
   final batchId;
+  final batchName;
   final showIncome;
   final Map<String,dynamic> user;
   final Map<String,dynamic> token;
 
   const ListInfo({super.key, required this.title, required this.fields, required this.path, required this.batchId, required this.showIncome,
-    required this.user, required this.token
+    required this.user, required this.token, required this.batchName
   });
 
   final String title;
@@ -222,7 +224,7 @@ class _ListInfoState extends State<ListInfo> {
                                     context,
 
                                     MaterialPageRoute(
-                                        builder: (context) => EditPage(title: 'Add Income', batchName: widget.batchId, show: 2, user: widget.user, token: widget.token)
+                                        builder: (context) => EditPage(title: 'Add Income', batchName: widget.batchName, show: 2, user: widget.user, token: widget.token, batchId: widget.batchId,)
                                     ),
 
                                   );
@@ -239,7 +241,7 @@ class _ListInfoState extends State<ListInfo> {
                                     context,
 
                                     MaterialPageRoute(
-                                        builder: (context) => EditPage(title: 'Add Expenses', batchName: widget.batchId, show: 1, user: widget.user, token: widget.token)
+                                        builder: (context) => EditPage(title: 'Add Expenses', batchName: widget.batchId, show: 1, user: widget.user, token: widget.token, batchId: widget.batchId)
                                     ),
 
                                   );

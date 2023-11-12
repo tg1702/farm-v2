@@ -14,9 +14,10 @@ import '../main.dart';
 class InfoHomePage extends StatefulWidget {
 
   final batchId;
+  final batchName;
   final Map<String,dynamic> user;
   final token;
-  const InfoHomePage({super.key, required this.title, required this.batchId, required this.token, required this.user});
+  const InfoHomePage({super.key, required this.title, required this.batchName, required this.batchId, required this.token, required this.user});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -147,7 +148,7 @@ class _InfoHomePageState extends State<InfoHomePage> {
 
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        child: Text("Info for ${widget.batchId}",
+                        child: Text("Info for ${widget.batchName}",
                             style: const TextStyle(
                                 color: Colors.green, fontSize: 32)),
 
@@ -157,51 +158,51 @@ class _InfoHomePageState extends State<InfoHomePage> {
                         rows: [
                           DataRow( cells: [
                           DataCell(Text("Date ")),
-                          DataCell(Text("${data["Date"]}"))
+                          DataCell(Text("${data["date"]}"))
                           ],
                           ),
                           DataRow( cells: [
                             DataCell(Text("Vendor ")),
-                            DataCell(Text("${data["Vendor"]}"))
+                            DataCell(Text("${data["vendor"]}"))
                             ],
                           ),
                           DataRow( cells: [
                             DataCell(Text("Original Quantity ")),
-                            DataCell(Text("${data["Original Quantity"]}"))
+                            DataCell(Text("${data["original_quantity"]}"))
                           ],
                           ),
                         DataRow( cells: [
                         DataCell(Text("Current Quantity ")),
-                        DataCell(Text("${data["Current Quantity"]}"))
+                        DataCell(Text("${data["current_quantity"]}"))
                         ],
                         ),
 
                           DataRow( cells: [
                             DataCell(Text("Mortality Rate ")),
-                            DataCell(Text("${double.parse((((data["Original Quantity"]-data["Current Quantity"])/data["Original Quantity"])*100).toStringAsFixed(2))}%"))
+                            DataCell(Text("${double.parse((((data["original_quantity"]-data["current_quantity"])/data["original_quantity"])*100).toStringAsFixed(2))}%"))
                           ],
                           ),
                         DataRow( cells: [
                         DataCell(Text("Total Income ")),
-                        DataCell(Text("\$ ${data["Total Income"].toStringAsFixed(2)}"))
+                        DataCell(Text("\$ ${data["total_income"].toStringAsFixed(2)}"))
                         ],
                         ),
                         DataRow( cells: [
                         DataCell(Text("Total Expenses ")),
-                          DataCell(Text("\$ ${data["Total Expenses"].toStringAsFixed(2)}"))
+                          DataCell(Text("\$ ${data["total_expenses"].toStringAsFixed(2)}"))
                         ],
                         ),
-                        if (data["Status"] == "Archived")
+                        if (data["active_status"] == 1)
                         DataRow( cells: [
                         DataCell(Text("Batch Balance ")),
-                        DataCell(Text("\$ ${(data["Total Income"] - data["Total Expenses"]).toStringAsFixed(2)}")),
+                        DataCell(Text("\$ ${(data["total_income"] - data["total_expenses"]).toStringAsFixed(2)}")),
                         ],
                         ),
                         DataRow(
                           cells:
                           [
                             DataCell(Text("Estimated Completion")),
-                            DataCell(Text("${data["Estimated Date"]}")),
+                            DataCell(Text("${data["estimated_completion"]}")),
                           ]  ,
                         ),
                                   ],
@@ -250,7 +251,8 @@ class _InfoHomePageState extends State<InfoHomePage> {
                               MaterialPageRoute(
                                 builder: (context) => EditPage(
                                     title: 'Add an Expense',
-                                    batchName: widget.batchId,
+                                    batchName: widget.batchName,
+                                    batchId: widget.batchId,
                                     user: widget.user,
                                     token: widget.token,
                                     show: 1),
@@ -261,7 +263,7 @@ class _InfoHomePageState extends State<InfoHomePage> {
                         ),
                       ),
 
-                      if (data["Status"] == "Active")
+                      if (data["active_status"] == 1)
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 16.0),
                         child: ElevatedButton(
@@ -272,7 +274,8 @@ class _InfoHomePageState extends State<InfoHomePage> {
                               MaterialPageRoute(
                                 builder: (context) => EditPage(
                                     title: 'Add Death',
-                                    batchName: widget.batchId,
+                                    batchName: widget.batchName,
+                                    batchId: widget.batchId,
                                     user: widget.user,
                                     token: widget.token,
                                     show: 3),
@@ -283,7 +286,7 @@ class _InfoHomePageState extends State<InfoHomePage> {
                         ),
                       ),
 
-                      if (data["Status"] == "Active")
+                      if (data["active_status"] == 1)
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                         child: ElevatedButton(
@@ -304,7 +307,7 @@ class _InfoHomePageState extends State<InfoHomePage> {
                       ),
 
 
-                      if (data["Status"] == "Active")
+                      if (data["active_status"] == 1)
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                         child: ElevatedButton(
@@ -346,7 +349,7 @@ class _InfoHomePageState extends State<InfoHomePage> {
                               context,
 
                               MaterialPageRoute(
-                                  builder: (context) => EditPage(title: 'Add Income', batchName: widget.batchId, show: 2, token: widget.token, user: widget.user)
+                                  builder: (context) => EditPage(title: 'Add Income', batchName: widget.batchName, show: 2, token: widget.token, user: widget.user, batchId: widget.batchId)
                               ),
 
                             );
@@ -366,7 +369,7 @@ class _InfoHomePageState extends State<InfoHomePage> {
                 child: CircularProgressIndicator(),
               );
               },
-                  future:returnFields(widget.user, widget.batchId, widget.token),
+                  future: returnFields(widget.user, widget.batchId, widget.token),
                 ),
 
     ),
@@ -380,11 +383,12 @@ class _InfoHomePageState extends State<InfoHomePage> {
 }
 
 Future<List> returnFields(user, batchId, token) async{
-  String url = "";
 
-  final batch = await getData("https://tg0217.pythonanywhere.com/user/${user["user_id"]}/batches/${batchId}", token);
-  final docRef2 = await getData("https://tg0217.pythonanywhere.com/user/${user["user_id"]}/batches/${batchId}/expenses", token);
+  final batch = await getData("https://tg0217.pythonanywhere.com/users/${user["user_id"]}/batches/$batchId", token);
+  final expenses = await getData("https://tg0217.pythonanywhere.com/users/${user["user_id"]}/batches/$batchId/expenses", token);
 
+  print(batch);
+  print(expenses);
 
-  return batch + docRef2;
+  return batch + expenses;
 }

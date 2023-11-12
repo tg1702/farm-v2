@@ -10,12 +10,13 @@ import 'list_view.dart';
 class ArchiveViewPage extends StatefulWidget {
 
 
-  const ArchiveViewPage({super.key, required this.title,
+  const ArchiveViewPage({super.key, required this.title, required this.batchName,
     required this.token, required this.user, required this.fields, required this.batchId, required this.path});
 
   final Map<String,dynamic> user;
   final path;
   final batchId;
+  final batchName;
   final fields;
   final Map<String,dynamic> token;
   final String title;
@@ -83,7 +84,7 @@ class _ArchiveViewPageState extends State<ArchiveViewPage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                InfoHomePage(title: '(Archived) ${subIds[i]}' , batchId: subIds[i], user: widget.user, token: widget.token),
+                                InfoHomePage(title: '(Archived) ${subIds[i]}' , batchId: subIds[i], user: widget.user, token: widget.token, batchName: widget.batchName),
                           ),
 
                         );} ))

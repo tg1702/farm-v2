@@ -132,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-String getRandomUserName() {
+String getRandomString() {
   const int length = 10;
   const chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   Random rnd = Random();

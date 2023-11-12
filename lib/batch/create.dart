@@ -190,22 +190,23 @@ class _CreatePageState extends State<CreatePage> {
                         vendor = vendorController.text;
                       }
 
+                      String batchId = getRandomString();
+
                       final newEntry = <String, dynamic>{
-                        "Batch Name": batchName,
-                        "Date": fixDate(date),
-                        "Original Quantity": originalQuantity,
-                        "Vendor": vendor,
-                        "Current Quantity": originalQuantity,
-                        "Total Income": 0.00,
-                        "Total Expenses": 0.00,
-                        "Batch Balance": 0.00,
-                        "Estimated Date": fixDate(estimatedDateString),
-                        "Status": "Active"
+                        "batch_id": batchId,
+                        "batch_name": batchName,
+                        "date": date,
+                        "original_quantity": originalQuantity,
+                        "vendor": vendor,
+                        "current_quantity": originalQuantity,
+                        "total_income": 0.00,
+                        "total_expenses": 0.00,
+                        "estimated_completion": estimatedDateString,
+                        "active_status": 1,
+                        "user_id": widget.user["user_id"]
                       };
 
-
-
-                      int code = await sendData("https://tg0217.pythonanywhere.com/users/${widget.user["user_id"]}/batches/}", newEntry, widget.token);
+                      int code = await sendData("https://tg0217.pythonanywhere.com/users/${widget.user["user_id"]}/batches/$batchId", newEntry, widget.token);
                       print("Code $code");
 
 
@@ -224,7 +225,7 @@ class _CreatePageState extends State<CreatePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => InfoHomePage(title: 'Info for ${batchName}', batchId: batchName, user: widget.user, token: widget.token),
+                          builder: (context) => InfoHomePage(title: 'Info for ${batchName}', batchId: batchId, batchName: batchName, user: widget.user, token: widget.token),
 
                         ),
 

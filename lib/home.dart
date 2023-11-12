@@ -40,6 +40,7 @@ Future<List<Map<String,dynamic>>> getData( String url, Map<String,dynamic> token
 
     List<Map<String,dynamic>> list = List<Map<String,dynamic>>.from(json.decode(response.body));
 
+    print(list);
     return list;
   }
   else {
@@ -113,15 +114,15 @@ class _MainPageState extends State<MainPage> {
                     docNames?.forEach((doc)
                     {
 
-                      if (doc["Status"] == 1) {
+                      if (doc["active_status"] == 1) {
                         sidebarList.add(ListTile(
-                          title: Text("     ${doc["batch_id"]}"),
+                          title: Text("     ${doc["batch_name"]}"),
                           onTap: () =>
                           {Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  InfoHomePage(batchId: doc["batch_id"], title: doc["batch_id"], user: widget.user, token: widget.token),
+                                  InfoHomePage(batchId: doc["batch_id"], title: doc["batch_name"], user: widget.user, token: widget.token, batchName: doc["batch_name"]),
                             ),
 
                           )},
@@ -201,7 +202,7 @@ Widget makeDrawer(context, title, user, token){
                     onTap: () => {Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => InfoHomePage(batchId: d["batch_name"], title: d["batch_name"], user: user, token: token),
+                        builder: (context) => InfoHomePage(batchId: d["batch_name"], title: d["batch_name"], user: user, token: token, batchName: d["batch_name"]),
                       ),
 
                     )},
@@ -257,7 +258,7 @@ Widget makeDrawer(context, title, user, token){
                   ListTile(
                     title: const Text("View Archived Batches"),
                     onTap: () => {Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ArchiveViewPage(title: 'View Archived Batches', batchId: null, fields: ["Batch Name", "Total Expenses", "Total Income", "Original Quantity", "Current Quantity", "Date Archived"], path: "https:", user: user, token: token))
+                        MaterialPageRoute(builder: (context) => ArchiveViewPage(title: 'View Archived Batches', batchId: null, fields: ["Batch Name", "Total Expenses", "Total Income", "Original Quantity", "Current Quantity", "Date Archived"], path: "https:", user: user, token: token, batchName:null))
 
                     )},
                   ),

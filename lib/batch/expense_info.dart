@@ -49,7 +49,7 @@ class _ExpInfoPageState extends State<ExpInfoPage> {
   Widget build(BuildContext context) {
 
     return WillPopScope(
-      onWillPop: () async {Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => InfoHomePage(title: 'Info for ${widget.batchName}', batchId: widget.batchId, user: widget.user, token: widget.token)), (route) => false); return Future.value(false);},
+      onWillPop: () async {Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => InfoHomePage(title: 'Info for ${widget.batchName}', batchId: widget.batchId, batchName: widget.batchName, user: widget.user, token: widget.token)), (route) => false); return Future.value(false);},
       child: Scaffold(
         appBar: AppBar(
           // Here we take the value from the MyHomePage object that was created by
@@ -211,7 +211,7 @@ class _ExpInfoPageState extends State<ExpInfoPage> {
                         child: ElevatedButton(
                           child: const Text("Back"),
                           onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => InfoHomePage(title: 'Info for ${widget.batchId}', batchId: widget.batchId, user: widget.user, token: widget.token)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => InfoHomePage(title: 'Info for ${widget.batchName}', batchId: widget.batchId, batchName: widget.batchName, user: widget.user, token: widget.token)));
                           },
                         ),
                       ),

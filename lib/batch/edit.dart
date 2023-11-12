@@ -12,11 +12,12 @@ import 'create.dart';
 
 class EditPage extends StatefulWidget {
   final batchName;
+  final batchId;
   final Map<String,dynamic> user;
   final show;
   final Map<String,dynamic> token;
   const EditPage({super.key, required this.title, required this.batchName, required this.show, required this.user,
-  required this.token
+  required this.token, required this.batchId
   });
 
   // This widget is the home page of your application. It is stateful, meaning
@@ -195,7 +196,7 @@ class _EditPageState extends State<EditPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => InfoHomePage(batchId: widget.batchName, title: 'Info for ${widget.batchName}', user: widget.user, token: widget.token),
+                        builder: (context) => InfoHomePage(batchId: widget.batchId, batchName: widget.batchName, title: 'Info for ${widget.batchName}', user: widget.user, token: widget.token),
                       ),
 
                     );
@@ -228,7 +229,7 @@ class _EditPageState extends State<EditPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => InfoHomePage(title: 'Info for ${widget.batchName}', batchId: widget.batchName, user: widget.user, token: widget.token),
+                        builder: (context) => InfoHomePage(title: 'Info for ${widget.batchName}', batchName: widget.batchName, batchId: widget.batchName, user: widget.user, token: widget.token),
 
                     ),
                   );
@@ -287,7 +288,7 @@ class _EditPageState extends State<EditPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => InfoHomePage(title: 'Info for ${widget.batchName}', batchId: widget.batchName, user: widget.user, token: widget.token),
+                            builder: (context) => InfoHomePage(title: 'Info for ${widget.batchName}', batchName: widget.batchName, batchId: widget.batchId, user: widget.user, token: widget.token),
                             ),
 
                         );
