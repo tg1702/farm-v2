@@ -1,6 +1,6 @@
 # farm_v2
 
-A new Flutter project.
+Version 2 of farm app project.
 
 ## Getting Started
 
